@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>ES6: Destructuring</title>
+
+		<link rel="stylesheet" href="reveal/css/reveal.css">
+		<link rel="stylesheet" href="reveal/css/theme/beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<img src="bookCover.jpg" style="width: 200px; display: inline-block; vertical-align: -40%;">
+					<div style="display: inline-block; margin-left: 1em;">
+						<h1 style="text-align: left; margin: 0;">Destructuring </h1>
+						<h2 style="text-align: left;">Exploring ES6</h2>
+					</div>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						## What is Destructuring?
+
+						* Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays.
+
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+					### Destructuring object
+						let person = { 
+							name: 'Huanzhou', 
+							age: 25,
+							company: 'Microstrategy'
+						}
+						
+						person.age; //25
+						person['age']; //25
+						
+						let { age: personAge } = person;
+
+						console.log(personAge) //25
+						
+					</script>
+				</section>
+				<section data-markdown>
+				<script type="text/template">
+					### Shorthands version
+						let person = { 
+							name: 'Huanzhou', 
+							age: 25,
+							company: 'Microstrategy'
+						}
+						
+						let { age } = person; // age = 25;
+						// same as let {age: age} = person;
+
+						let {name, company} = person; 
+						// name = 'Huanzhou'; company = 'Microstrategy';
+						
+					</script>
+				</section>
+				<section data-markdown>
+				<script type="text/template">
+					### Destructuring Array
+						let numbers = [1,2,3,4];
+
+						let [first, second] = numbers; // first =1 , second = 2
+						
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Why to use Destructuring
+						```
+						const obj = { first: 'Jane', last: 'Doe' };
+
+						const f = obj.first;
+						const l = obj.last;
+						```
+
+						```
+						const { first: f, last: l } = obj;
+						```
+
+						* convenient! It lets you extract multiple properties from an object via an object pattern.
+
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					##  where can destructuring be used?
+					* Variable declarations:
+						```
+						const [x] = ['a'];
+						let [x] = ['a'];
+						var [x] = ['a'];
+						```
+					* Assignments
+						```
+						[x] = ['a'];
+						```
+					* Parameter definitions:
+
+						```
+						function f([x]) { ··· }
+
+						f(['a']);
+						```
+					* You can also destructure in a for-of loop:
+					
+						````
+					const arr = ['a', 'b'];
+					for (const [index, element] of arr.entries()) {
+						console.log(index, element);
+					}
+						````
+
+					</script>
+				</section>
+
+				<section data-markdown>
+				<script type="text/template">
+					### Destructuring Array
+
+					* Use comma to "skip" the elements
+
+						```
+						const [,, x, y] = ['a', 'b', 'c', 'd']; // x = 'c'; y = 'd';
+						
+						```
+ 
+					* The rest operator lets you extract the remaining elements of an iterable into an Array.
+
+						```
+						const [x, ...y] = ['a', 'b', 'c']; // x = 'a'; y = ['b', 'c'];
+
+						```
+					</script>
+				</section>
+
+				<section data-markdown>
+				<script type="text/template">
+					### Destructuring Array with rest
+
+					* If the operator can’t find any elements, it matches its operand against the empty Array.
+						```
+						const [x, y, ...z] = ['a']; // x = 'a'; y = undefined; z = [];	
+
+						```
+					* The operand of the rest operator doesn’t have to be a variable, you can use patterns, too:
+						```
+						const [x, ...[y, z]] = ['a', 'b', 'c']; // x = 'a'; y = 'b'; z = 'c'
+						```
+						* The rest operator triggers the following destructuring:
+							```
+							[y, z] = ['b', 'c']
+							```
+ 
+					</script>
+				</section>
+
+				<section data-markdown>
+				<script type="text/template">
+					###  Work with iterable
+					* Array destructuring uses an iterator to get to the elements of a source. Therefore, you can Array-destructure any value that is iterable.
+					
+					* Strings are iterable:
+					```
+					const [x,...y] = 'abc'; // x='a'; y=['b', 'c']
+					```
+					* You can’t access the elements of a Set via indices, but you can do so via an iterator. Therefore, Array destructuring works for Sets:
+					```
+					const [x,y] = new Set(['a', 'b']); // x='a'; y='b’;
+					```
+
+					</script>
+				</section>
+
+				<section data-markdown>
+				<script type="text/template">
+					###  Computed property keys
+					
+					* You can specify the key of a property via an expression, if you put it in square brackets:
+					```
+					const FOO = 'foo';
+					const { [FOO]: f } = { foo: 123 }; // f = 123
+					```
+	
+
+					</script>
+				</section>
+
+				<section data-markdown>
+				<script type="text/template">
+					###  Default Values
+					* If a part (an object property or an Array element) has no match in the source, it is matched against: 
+					  * its default value (if specified; it’s optional)
+					  * undefined (otherwise)
+					
+					```
+					const {foo: x=3, bar: y} = {}; // x = 3; y = undefined
+					```
+
+					```
+					const {foo: x=3, bar: y} = {foo: 4}; // x = 4; y = undefined
+					```
+ 
+					</script>
+				</section>
+
+				<section data-markdown>
+				<script type="text/template">
+					###  Default Values
+					* Default values are also used if a part does have a match and that match is undefined:
+					```
+					const [x=1] = [undefined]; // x = 1
+					const {prop: y=2} = {prop: undefined}; // y = 2
+					```
+					==============================================
+
+						```
+					const {prop: y=someFunc()} = someValue;
+						```
+					
+						```
+					let y;
+					if (someValue.prop === undefined) {
+						y = someFunc();
+					} else {
+						y = someValue.prop;
+					}
+						```
+
+					</script>
+				</section>
+
+
+				<section data-markdown>
+				<script type="text/template">
+					###  Pitfalls
+					* You can’t start a statement with a curly brace.
+					* During destructuring, you can either declare variables or assign to them, but not both.
+					
+					```
+					let a, b; 
+					{a, b } = someObject; // SyntaxError
+
+					({ a, b } = someObject); // ok
+
+					[a, b] = [1, 2]; // ok
+					```
+					
+					```
+					let a;
+					let {a, b} = someObject; // SyntaxError
+					```
+
+					</script>
+				</section>
+
+
+
+			
+				<section>
+					<div style="font-size: 2em; margin-bottom: 1em; ">Phew!</div>
+					<div>That's all for now.</div>
+					<div>Go out and enjoy JavaScript!</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="reveal/lib/js/head.min.js"></script>
+		<script src="reveal/js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'reveal/plugin/markdown/marked.js' },
+					{ src: 'reveal/plugin/markdown/markdown.js' },
+					{ src: 'reveal/plugin/notes/notes.js', async: true },
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
